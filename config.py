@@ -13,7 +13,10 @@ class Config:
         db_url = db_url.replace("postgres://", "postgresql://", 1)
 
     if not db_url:
-        db_url = "sqlite:///" + os.path.join(BASE_DIR, "instance", "sms.db")
+      instance_path = os.path.join(BASE_DIR, "app", "instance")
+      os.makedirs(instance_path, exist_ok=True)
+      db_url = "sqlite:///" + os.path.join(instance_path, "sms.db")
+        
 
     SQLALCHEMY_DATABASE_URI = db_url
     SQLALCHEMY_TRACK_MODIFICATIONS = False
