@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Manage All Users{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1>Manage All Users</h1><p class="subtitle"></p></div>
+</div>
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Full Name</th><th>Username</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+        <tr>
+          <td data-label="Full Name">{{ row.full_name }}</td>
+          <td data-label="Username">{{ row.username }}</td>
+          <td data-label="Role"><span class="badge badge-info">{{ row.role }}</span></td>
+          <td data-label="Status">
+            {% if row.status == 'Active' %}<span class="badge badge-success">Active</span>{% else %}<span class="badge badge-danger">Disabled</span>{% endif %}
+          </td>
+          <td data-label="Actions" class="actions">
+            <a href="{{ row.extra_url }}" class="btn btn-sm btn-outline">{{ row.extra_label }}</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="empty">No users found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

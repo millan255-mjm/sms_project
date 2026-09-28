@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Lecturer Dashboard{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Welcome, {{ current_user.full_name }}</h1></div>
+
+<div class="stat-grid">
+  <div class="stat-card"><div class="stat-value">{{ courses|length }}</div><div class="stat-label">My Courses</div></div>
+  <div class="stat-card"><div class="stat-value">{{ total_students }}</div><div class="stat-label">Total Students</div></div>
+  <div class="stat-card"><div class="stat-value">{{ pending_grading }}</div><div class="stat-label">Ungraded Submissions</div></div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">My Courses</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Code</th><th>Course</th><th>Enrolled</th></tr></thead>
+      <tbody>
+      {% for c in courses %}
+        <tr><td data-label="Code">{{ c.code }}</td><td data-label="Course">{{ c.name }}</td><td data-label="Enrolled">{{ c.enrollments|length }}</td></tr>
+      {% else %}
+        <tr><td colspan="3" class="empty">No courses assigned yet. Contact your administrator.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

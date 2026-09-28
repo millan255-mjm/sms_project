@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Submissions - {{ assignment.title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div><h1>{{ assignment.title }}</h1><p class="subtitle">{{ assignment.course.code }} — Max score: {{ assignment.max_score }}</p></div>
+  <a href="{{ url_for('lecturer.assignments') }}" class="btn btn-outline">Back to Assignments</a>
+</div>
+
+{% for s in submissions %}
+<div class="card">
+  <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;">
+    <div>
+      <strong>{{ s.student.user.full_name }}</strong> <span class="subtitle">({{ s.student.reg_no }})</span>
+      <p style="color:var(--text-muted); font-size:14px; margin:8px 0;">{{ s.content or 'No content submitted.' }}</p>
+      <span class="subtitle">Submitted: {{ s.submitted_at.strftime('%Y-%m-%d %H:%M') }}</span>
+    </div>
+  </div>
+  <form method="POST" class="grid-form" style="margin-top:14px;">
+    <input type="hidden" name="submission_id" value="{{ s.id }}">
+    <div class="form-group">
+      <label>Score (out of {{ assignment.max_score }})</label>
+      <input type="number" name="score" step="0.5" min="0" max="{{ assignment.max_score }}" value="{{ s.score if s.score is not none else '' }}" style="width:120px;">
+    </div>
+    <div class="form-group" style="flex:1;">
+      <label>Feedback</label>
+      <input type="text" name="feedback" value="{{ s.feedback or '' }}" placeholder="Optional feedback">
+    </div>
+    <button type="submit" class="btn btn-primary">Save Grade</button>
+  </form>
+</div>
+{% else %}
+<div class="card"><p class="empty">No submissions yet.</p></div>
+{% endfor %}
+{% endblock %}

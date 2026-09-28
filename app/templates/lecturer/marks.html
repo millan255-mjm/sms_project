@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Enter Marks{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Enter Marks / Examination Results</h1></div>
+
+<form method="GET" class="card grid-form">
+  <div class="form-group">
+    <label>Course</label>
+    <select name="course_id" onchange="this.form.submit()">
+      <option value="">-- Choose a course --</option>
+      {% for c in courses %}
+      <option value="{{ c.id }}" {% if course and course.id == c.id %}selected{% endif %}>{{ c.code }} - {{ c.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</form>
+
+{% if course %}
+<form method="POST" class="card">
+  <input type="hidden" name="course_id" value="{{ course.id }}">
+  <h3 style="margin-top:0;">{{ course.code }} - {{ course.name }}</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Student</th><th>Reg No</th><th>CA (30)</th><th>Exam (70)</th><th>Total</th><th>Grade</th></tr></thead>
+      <tbody>
+      {% for e in enrollments %}
+        {% set m = existing.get(e.student_id) %}
+        <tr>
+          <td data-label="Student">{{ e.student.user.full_name }}</td>
+          <td data-label="Reg No">{{ e.student.reg_no }}</td>
+          <td data-label="CA"><input type="number" step="0.5" min="0" max="30" name="ca_{{ e.student_id }}" value="{{ m.ca_score if m else 0 }}" style="width:90px;"></td>
+          <td data-label="Exam"><input type="number" step="0.5" min="0" max="70" name="exam_{{ e.student_id }}" value="{{ m.exam_score if m else 0 }}" style="width:90px;"></td>
+          <td data-label="Total">{{ m.total if m else '—' }}</td>
+          <td data-label="Grade">{% if m %}<span class="badge badge-info">{{ m.grade }}</span>{% else %}—{% endif %}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="empty">No students enrolled in this course.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if enrollments %}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save Marks</button>
+  </div>
+  {% endif %}
+</form>
+{% endif %}
+{% endblock %}

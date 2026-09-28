@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}System Settings{% endblock %}
+{% block content %}
+<div class="page-header"><h1>System Settings</h1></div>
+<form method="POST" class="card form-card">
+  <div class="form-group">
+    <label>Institution Name</label>
+    <input type="text" name="institution_name" value="{{ settings.institution_name }}">
+  </div>
+  <div class="form-group">
+    <label>Current Academic Year</label>
+    <input type="text" name="academic_year" value="{{ settings.academic_year }}">
+  </div>
+  <div class="form-group">
+    <label>Current Semester</label>
+    <input type="text" name="current_semester" value="{{ settings.current_semester }}">
+  </div>
+  <div class="form-group">
+    <label style="flex-direction:row; display:flex; align-items:center; gap:10px;">
+      <input type="checkbox" name="allow_self_registration" style="width:18px;height:18px;" {% if settings.allow_self_registration == 'on' %}checked{% endif %}>
+      Allow student self-registration
+    </label>
+  </div>
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Save Settings</button>
+  </div>
+</form>
+{% endblock %}

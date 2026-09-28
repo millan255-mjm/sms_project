@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My Results{% endblock %}
+{% block content %}
+<div class="page-header"><h1>My Results</h1></div>
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Course</th><th>CA (30)</th><th>Exam (70)</th><th>Total</th><th>Grade</th></tr></thead>
+      <tbody>
+      {% for m in marks %}
+        <tr>
+          <td data-label="Course">{{ m.course.code }} - {{ m.course.name }}</td>
+          <td data-label="CA">{{ m.ca_score }}</td>
+          <td data-label="Exam">{{ m.exam_score }}</td>
+          <td data-label="Total">{{ m.total }}</td>
+          <td data-label="Grade"><span class="badge badge-info">{{ m.grade }}</span></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="empty">No results published yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

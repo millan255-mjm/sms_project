@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Super Admin Dashboard{% endblock %}
+{% block content %}
+<div class="page-header"><h1> Admininistrator Dashboard</h1></div>
+
+<div class="stat-grid">
+  <div class="stat-card"><div class="stat-value">{{ stats.admins }}</div><div class="stat-label">Admins</div></div>
+  <div class="stat-card"><div class="stat-value">{{ stats.lecturers }}</div><div class="stat-label">Lecturers</div></div>
+  <div class="stat-card"><div class="stat-value">{{ stats.students }}</div><div class="stat-label">Students</div></div>
+  <div class="stat-card"><div class="stat-value">{{ stats.courses }}</div><div class="stat-label">Courses</div></div>
+  <div class="stat-card"><div class="stat-value">{{ stats.departments }}</div><div class="stat-label">Departments</div></div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Recent Activity</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Time</th><th>User</th><th>Role</th><th>Action</th><th>Details</th></tr></thead>
+      <tbody>
+      {% for log in recent_logs %}
+        <tr>
+          <td data-label="Time">{{ log.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td data-label="User">{{ log.username }}</td>
+          <td data-label="Role">{{ log.role or '—' }}</td>
+          <td data-label="Action">{{ log.action }}</td>
+          <td data-label="Details">{{ log.details or '—' }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="empty">No activity yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{{ url_for('superadmin.audit_logs') }}" class="btn btn-sm btn-outline" style="margin-top:12px;">View Full Audit Log</a>
+</div>
+{% endblock %}

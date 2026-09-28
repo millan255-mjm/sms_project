@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h1>{{ title }}</h1>
+    {% if subtitle %}<p class="subtitle">{{ subtitle }}</p>{% endif %}
+  </div>
+  {% if add_url %}<a href="{{ add_url }}" class="btn btn-primary">+ {{ add_label or 'Add New' }}</a>{% endif %}
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr>
+          {% for key, label in columns %}<th>{{ label }}</th>{% endfor %}
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in rows %}
+        <tr>
+          {% for key, label in columns %}<td data-label="{{ label }}">{{ row[key] if row[key] is not none else '—' }}</td>{% endfor %}
+          <td class="actions" data-label="Actions">
+            {% if row.get('extra_url') %}<a href="{{ row.extra_url }}" class="btn btn-sm btn-outline">{{ row.get('extra_label','View') }}</a>{% endif %}
+            {% if row.get('edit_url') %}<a href="{{ row.edit_url }}" class="btn btn-sm btn-outline">Edit</a>{% endif %}
+            {% if row.get('delete_url') %}
+            <form method="POST" action="{{ row.delete_url }}" class="inline-form" onsubmit="return confirm('Are you sure you want to delete this record?');">
+              <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="{{ columns|length + 1 }}" class="empty">No records found.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

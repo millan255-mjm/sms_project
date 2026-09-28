@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Database Backup{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Database Backup / Restore</h1></div>
+<div class="card">
+  {% if is_sqlite %}
+    <p>Your system is currently running on an <strong>SQLite</strong> database file.</p>
+   
+    <a href="{{ url_for('superadmin.backup_download') }}" class="btn btn-primary">⬇️ Download Backup (.db)</a>
+    <p class="field-help" style="margin-top:16px;"></p>
+  {% else %}
+    <p>Your system is running on a hosted database (e.g. PostgreSQL on Railway).</p>
+    <p class="subtitle">Use your database provider's dashboard to create snapshots and restore points — this is the safest way to back up a production database.</p>
+    <p class="field-help">On Railway: open your Postgres service → <strong>Data</strong> tab → Backups.</p>
+  {% endif %}
+</div>
+{% endblock %}

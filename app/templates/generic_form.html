@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="page-header"><h1>{{ title }}</h1></div>
+
+<form method="POST" class="card form-card" novalidate>
+  {% for f in fields %}
+  <div class="form-group">
+    <label>{{ f.label }}{% if f.required %} <span class="req">*</span>{% endif %}</label>
+    {% if f.type == 'select' %}
+    <select name="{{ f.name }}" {% if f.required %}required{% endif %}>
+      <option value="">-- Select --</option>
+      {% for val, label in f.options %}
+      <option value="{{ val }}" {% if val|string == (f.value|string) %}selected{% endif %}>{{ label }}</option>
+      {% endfor %}
+    </select>
+    {% elif f.type == 'textarea' %}
+    <textarea name="{{ f.name }}" rows="4" {% if f.required %}required{% endif %} placeholder="{{ f.placeholder or '' }}">{{ f.value or '' }}</textarea>
+    {% else %}
+    <input type="{{ f.type }}" name="{{ f.name }}"
+           value="{{ f.value if f.value is not none else '' }}"
+           {% if f.required %}required{% endif %}
+           {% if f.step %}step="{{ f.step }}"{% endif %}
+           {% if f.readonly %}readonly{% endif %}
+           placeholder="{{ f.placeholder or '' }}">
+    {% endif %}
+    {% if f.help %}<small class="field-help">{{ f.help }}</small>{% endif %}
+  </div>
+  {% endfor %}
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">{{ submit_label or 'Save' }}</button>
+    <a href="{{ cancel_url }}" class="btn btn-outline">Cancel</a>
+  </div>
+</form>
+{% endblock %}

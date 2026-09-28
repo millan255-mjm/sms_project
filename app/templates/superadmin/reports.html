@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}System Reports{% endblock %}
+{% block content %}
+<div class="page-header"><h1>System-Wide Reports</h1></div>
+
+<div class="stat-grid">
+  <div class="stat-card"><div class="stat-value">{{ totals.students }}</div><div class="stat-label">Total Students</div></div>
+  <div class="stat-card"><div class="stat-value">{{ totals.lecturers }}</div><div class="stat-label">Total Lecturers</div></div>
+  <div class="stat-card"><div class="stat-value">{{ totals.courses }}</div><div class="stat-label">Total Courses</div></div>
+  <div class="stat-card"><div class="stat-value">{{ totals.enrollments }}</div><div class="stat-label">Enrollments</div></div>
+  <div class="stat-card"><div class="stat-value">{{ totals.attendance_records }}</div><div class="stat-label">Attendance Records</div></div>
+  <div class="stat-card"><div class="stat-value">{{ totals.marks_recorded }}</div><div class="stat-label">Marks Recorded</div></div>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Students &amp; Courses by Department</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Department</th><th>Students</th><th>Courses</th></tr></thead>
+      <tbody>
+      {% for d in dept_stats %}
+        <tr><td data-label="Department">{{ d.name }}</td><td data-label="Students">{{ d.students }}</td><td data-label="Courses">{{ d.courses }}</td></tr>
+      {% else %}
+        <tr><td colspan="3" class="empty">No departments yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

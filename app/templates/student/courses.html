@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}My Courses{% endblock %}
+{% block content %}
+<div class="page-header"><h1>My Courses</h1></div>
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Code</th><th>Course</th><th>Units</th><th>Lecturer</th><th>Semester</th></tr></thead>
+      <tbody>
+      {% for e in enrollments %}
+        <tr>
+          <td data-label="Code">{{ e.course.code }}</td>
+          <td data-label="Course">{{ e.course.name }}</td>
+          <td data-label="Units">{{ e.course.credit_units }}</td>
+          <td data-label="Lecturer">{{ e.course.lecturer.user.full_name if e.course.lecturer else 'Unassigned' }}</td>
+          <td data-label="Semester">{{ e.semester }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="empty">You are not enrolled in any courses yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

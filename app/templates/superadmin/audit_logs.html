@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Audit Logs{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Audit Logs</h1></div>
+
+<form method="GET" class="grid-form card">
+  <div class="form-group">
+    <label>Filter by Role</label>
+    <select name="role" onchange="this.form.submit()">
+      <option value="">All Roles</option>
+      {% for r in ['superadmin','admin','lecturer','student'] %}
+      <option value="{{ r }}" {% if role_filter == r %}selected{% endif %}>{{ r|capitalize }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</form>
+
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Time</th><th>User</th><th>Role</th><th>Action</th><th>Details</th><th>IP</th></tr></thead>
+      <tbody>
+      {% for log in logs %}
+        <tr>
+          <td data-label="Time">{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+          <td data-label="User">{{ log.username }}</td>
+          <td data-label="Role">{{ log.role or '—' }}</td>
+          <td data-label="Action">{{ log.action }}</td>
+          <td data-label="Details">{{ log.details or '—' }}</td>
+          <td data-label="IP">{{ log.ip_address or '—' }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="empty">No log entries found.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

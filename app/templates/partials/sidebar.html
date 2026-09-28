@@ -1,0 +1,41 @@
+<nav class="sidebar-nav">
+{% if current_user.role == 'superadmin' %}
+  <a href="{{ url_for('superadmin.dashboard') }}" class="nav-link {% if request.endpoint=='superadmin.dashboard' %}active{% endif %}">🏠 Dashboard</a>
+  <a href="{{ url_for('superadmin.admins') }}" class="nav-link {% if 'superadmin.admins' in request.endpoint %}active{% endif %}">🛡️ Manage Admins</a>
+  <a href="{{ url_for('superadmin.users') }}" class="nav-link {% if request.endpoint=='superadmin.users' %}active{% endif %}">👥 Manage All Users</a>
+  <a href="{{ url_for('superadmin.settings') }}" class="nav-link {% if request.endpoint=='superadmin.settings' %}active{% endif %}">⚙️ System Settings</a>
+  <a href="{{ url_for('superadmin.backup') }}" class="nav-link {% if request.endpoint=='superadmin.backup' %}active{% endif %}">💾 Database Backup</a>
+  <a href="{{ url_for('superadmin.reports') }}" class="nav-link {% if request.endpoint=='superadmin.reports' %}active{% endif %}">📊 Reports</a>
+  <a href="{{ url_for('superadmin.security') }}" class="nav-link {% if request.endpoint=='superadmin.security' %}active{% endif %}">🔒 Security &amp; Permissions</a>
+  <a href="{{ url_for('superadmin.audit_logs') }}" class="nav-link {% if request.endpoint=='superadmin.audit_logs' %}active{% endif %}">📜 Audit Logs</a>
+
+{% elif current_user.role == 'admin' %}
+  <a href="{{ url_for('admin.dashboard') }}" class="nav-link {% if request.endpoint=='admin.dashboard' %}active{% endif %}">🏠 Dashboard</a>
+  <a href="{{ url_for('admin.students') }}" class="nav-link {% if 'admin.student' in request.endpoint %}active{% endif %}">🎓 Manage Students</a>
+  <a href="{{ url_for('admin.lecturers') }}" class="nav-link {% if 'admin.lecturer' in request.endpoint %}active{% endif %}">👨‍🏫 Manage Lecturers</a>
+  <a href="{{ url_for('admin.departments') }}" class="nav-link {% if 'admin.department' in request.endpoint %}active{% endif %}">🏛️ Departments</a>
+  <a href="{{ url_for('admin.classes') }}" class="nav-link {% if 'admin.class' in request.endpoint %}active{% endif %}">📚 Manage Classes</a>
+  <a href="{{ url_for('admin.courses') }}" class="nav-link {% if 'admin.course' in request.endpoint %}active{% endif %}">📖 Manage Courses</a>
+  <a href="{{ url_for('admin.enrollment') }}" class="nav-link {% if request.endpoint=='admin.enrollment' %}active{% endif %}">📝 Course Enrollment</a>
+  <a href="{{ url_for('admin.timetable') }}" class="nav-link {% if 'admin.timetable' in request.endpoint %}active{% endif %}">🗓️ Timetable</a>
+  <a href="{{ url_for('admin.announcements') }}" class="nav-link {% if 'admin.announcement' in request.endpoint %}active{% endif %}">📢 Announcements</a>
+  <a href="{{ url_for('admin.reports') }}" class="nav-link {% if request.endpoint=='admin.reports' %}active{% endif %}">📊 Reports</a>
+
+{% elif current_user.role == 'lecturer' %}
+  <a href="{{ url_for('lecturer.dashboard') }}" class="nav-link {% if request.endpoint=='lecturer.dashboard' %}active{% endif %}">🏠 Dashboard</a>
+  <a href="{{ url_for('lecturer.my_courses') }}" class="nav-link {% if request.endpoint=='lecturer.my_courses' %}active{% endif %}">📖 My Courses</a>
+  <a href="{{ url_for('lecturer.my_students') }}" class="nav-link {% if request.endpoint=='lecturer.my_students' %}active{% endif %}">🎓 My Students</a>
+  <a href="{{ url_for('lecturer.attendance') }}" class="nav-link {% if request.endpoint=='lecturer.attendance' %}active{% endif %}">🗒️ Record Attendance</a>
+  <a href="{{ url_for('lecturer.marks') }}" class="nav-link {% if request.endpoint=='lecturer.marks' %}active{% endif %}">✍️ Enter Marks</a>
+  <a href="{{ url_for('lecturer.assignments') }}" class="nav-link {% if 'lecturer.assignment' in request.endpoint or 'lecturer.submission' in request.endpoint %}active{% endif %}">📂 Manage Assignments</a>
+  <a href="{{ url_for('lecturer.performance') }}" class="nav-link {% if request.endpoint=='lecturer.performance' %}active{% endif %}">📈 Student Performance</a>
+
+{% elif current_user.role == 'student' %}
+  <a href="{{ url_for('student.dashboard') }}" class="nav-link {% if request.endpoint=='student.dashboard' %}active{% endif %}">🏠 Dashboard</a>
+  <a href="{{ url_for('student.profile') }}" class="nav-link {% if request.endpoint=='student.profile' %}active{% endif %}">👤 My Profile</a>
+  <a href="{{ url_for('student.courses') }}" class="nav-link {% if request.endpoint=='student.courses' %}active{% endif %}">📖 My Courses</a>
+  <a href="{{ url_for('student.results') }}" class="nav-link {% if request.endpoint=='student.results' %}active{% endif %}">📊 My Results</a>
+  <a href="{{ url_for('student.attendance') }}" class="nav-link {% if request.endpoint=='student.attendance' %}active{% endif %}">🗒️ My Attendance</a>
+  <a href="{{ url_for('student.assignments') }}" class="nav-link {% if 'student.assignment' in request.endpoint %}active{% endif %}">📂 My Assignments</a>
+{% endif %}
+</nav>

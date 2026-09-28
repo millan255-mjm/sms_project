@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Reports{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Reports</h1></div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Students per Class</h3>
+  {% for c in class_stats %}
+    <div style="margin-bottom:10px;">
+      <div style="display:flex; justify-content:space-between; font-size:13.5px; margin-bottom:4px;">
+        <span>{{ c.name }}</span><span class="subtitle">{{ c.count }} students</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" style="width:{{ (c.count/ (class_stats|map(attribute='count')|max or 1) * 100) if class_stats|map(attribute='count')|max else 0 }}%;"></div></div>
+    </div>
+  {% else %}
+    <p class="subtitle">No classes yet.</p>
+  {% endfor %}
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0;">Enrollment per Course</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Code</th><th>Course</th><th>Enrolled Students</th></tr></thead>
+      <tbody>
+      {% for c in course_stats %}
+        <tr><td data-label="Code">{{ c.code }}</td><td data-label="Course">{{ c.name }}</td><td data-label="Enrolled">{{ c.enrolled }}</td></tr>
+      {% else %}
+        <tr><td colspan="3" class="empty">No courses yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

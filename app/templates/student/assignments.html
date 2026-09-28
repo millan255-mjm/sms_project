@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}My Assignments{% endblock %}
+{% block content %}
+<div class="page-header"><h1>My Assignments</h1></div>
+<div class="card">
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Title</th><th>Course</th><th>Due Date</th><th>Status</th><th>Score</th><th>Actions</th></tr></thead>
+      <tbody>
+      {% for a in assignments %}
+        {% set sub = submissions.get(a.id) %}
+        <tr>
+          <td data-label="Title">{{ a.title }}</td>
+          <td data-label="Course">{{ a.course.code }}</td>
+          <td data-label="Due">{{ a.due_date.strftime('%Y-%m-%d') if a.due_date else '—' }}</td>
+          <td data-label="Status">
+            {% if sub %}<span class="badge badge-success">Submitted</span>{% else %}<span class="badge badge-warning">Pending</span>{% endif %}
+          </td>
+          <td data-label="Score">{{ sub.score if sub and sub.score is not none else '—' }} / {{ a.max_score }}</td>
+          <td data-label="Actions"><a href="{{ url_for('student.assignment_submit', assignment_id=a.id) }}" class="btn btn-sm btn-outline">{{ 'Edit Submission' if sub else 'Submit' }}</a></td>
+        </tr>
+      {% else %}
+        <tr><td colspan="6" class="empty">No assignments yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

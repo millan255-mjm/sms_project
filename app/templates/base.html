@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Student Management System{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<link rel="icon" href="data:,">
+</head>
+<body class="{% if not current_user.is_authenticated %}auth-page{% endif %}">
+
+{% if current_user.is_authenticated %}
+<button id="sidebarToggle" class="sidebar-toggle" aria-label="Toggle menu">
+  <span></span><span></span><span></span>
+</button>
+
+<div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-brand">
+    <span class="brand-mark">SMS</span>
+    <span class="brand-text">Student MS</span>
+  </div>
+  {% include "partials/sidebar.html" %}
+</aside>
+
+<div class="main-wrap">
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="page-role-badge">{{ current_user.role_label() }}</span>
+    </div>
+    <div class="topbar-right">
+      <span class="user-name">{{ current_user.full_name }}</span>
+      <a href="{{ url_for('auth.logout') }}" class="btn btn-sm btn-outline logout-btn">Logout</a>
+    </div>
+  </header>
+
+  <main class="content">
+    {% include "partials/messages.html" %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% else %}
+  {% include "partials/messages.html" %}
+  {% block guest_content %}{% endblock %}
+{% endif %}
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

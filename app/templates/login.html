@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Login - Student Management System{% endblock %}
+{% block guest_content %}
+<div class="login-screen">
+  <div class="login-card">
+    <div class="login-brand">
+      <span class="brand-mark big">SMS</span>
+      <h1>STUDENT MANAGEMENT SYSTEM</h1>
+      
+    </div>
+
+    <div class="role-tabs">
+      <button type="button" class="role-tab {% if active_role=='student' %}active{% endif %}" data-role="student">🎓 Student</button>
+      <button type="button" class="role-tab {% if active_role=='lecturer' %}active{% endif %}" data-role="lecturer">👨‍🏫 Lecturer</button>
+      <button type="button" class="role-tab {% if active_role=='admin' %}active{% endif %}" data-role="admin">🛠️ Admin</button>
+      <button type="button" class="role-tab {% if active_role=='superadmin' %}active{% endif %}" data-role="superadmin">🛡️ Super Admin</button>
+    </div>
+
+    <form method="POST" action="{{ url_for('auth.login') }}" class="login-form">
+      <input type="hidden" name="role" id="roleInput" value="{{ active_role }}">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" name="username" value="{{ username }}" required autofocus placeholder="Enter your username">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" name="password" required placeholder="Enter your password">
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Login as <span id="roleText">Student</span></button>
+    </form>
+
+    
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+  const tabs = document.querySelectorAll('.role-tab');
+  const roleInput = document.getElementById('roleInput');
+  const roleText = document.getElementById('roleText');
+  const labels = {student: 'Student', lecturer: 'Lecturer', admin: 'Admin', superadmin: 'Super Admin'};
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      roleInput.value = tab.dataset.role;
+      roleText.textContent = labels[tab.dataset.role];
+    });
+  });
+</script>
+{% endblock %}

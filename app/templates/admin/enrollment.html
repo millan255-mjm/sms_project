@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Course Enrollment{% endblock %}
+{% block content %}
+<div class="page-header"><h1>Course Enrollment</h1></div>
+
+<form method="POST" class="card grid-form">
+  <div class="form-group">
+    <label>Student</label>
+    <select name="student_id" required>
+      <option value="">-- Select Student --</option>
+      {% for id, label in students %}<option value="{{ id }}">{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <div class="form-group">
+    <label>Course</label>
+    <select name="course_id" required>
+      <option value="">-- Select Course --</option>
+      {% for id, label in courses %}<option value="{{ id }}">{{ label }}</option>{% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Enroll Student</button>
+</form>
+
+<div class="card">
+  <h3 style="margin-top:0;">Recent Enrollments</h3>
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>Student</th><th>Reg No</th><th>Course</th><th>Semester</th><th>Actions</th></tr></thead>
+      <tbody>
+      {% for row in rows %}
+        <tr>
+          <td data-label="Student">{{ row.student }}</td>
+          <td data-label="Reg No">{{ row.reg_no }}</td>
+          <td data-label="Course">{{ row.course }}</td>
+          <td data-label="Semester">{{ row.semester }}</td>
+          <td data-label="Actions">
+            <form method="POST" action="{{ row.delete_url }}" class="inline-form" onsubmit="return confirm('Remove this enrollment?');">
+              <button type="submit" class="btn btn-sm btn-danger">Remove</button>
+            </form>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5" class="empty">No enrollments yet.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
